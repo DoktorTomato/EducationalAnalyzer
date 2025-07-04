@@ -10,7 +10,7 @@ firebase_admin.initialize_app(cred)
 
 router = APIRouter()
 
-FIREBASE_API_KEY = ""
+FIREBASE_API_KEY = "AIzaSyD8FRxdUOTF4a9o_LkKFiozJfyPkUWFP-Q"
 
 class AuthData(BaseModel):
     email: str

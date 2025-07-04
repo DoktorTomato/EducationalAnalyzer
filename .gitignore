@@ -12,3 +12,4 @@ node_modules/
 venv/
 
 firebase_config.json
+service_config.json

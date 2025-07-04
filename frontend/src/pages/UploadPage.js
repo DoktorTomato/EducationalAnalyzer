@@ -6,7 +6,9 @@ function UploadPage() {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [result, setResult] = useState("");
+  const [abstract, setAbstract] = useState("");
+  const [filename, setFilename] = useState("");
+  const [length, setLength] = useState(null);
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -14,7 +16,9 @@ function UploadPage() {
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
     setError("");
-    setResult("");
+    setAbstract("");
+    setFilename("");
+    setLength(null);
   };
 
   const handleUpload = async (e) => {
@@ -23,9 +27,18 @@ function UploadPage() {
       setError("Please select a file to upload.");
       return;
     }
+
+    // Optional: check if file is a PDF
+    if (file.type !== "application/pdf") {
+      setError("Only PDF files are supported.");
+      return;
+    }
+
     setLoading(true);
     setError("");
-    setResult("");
+    setAbstract("");
+    setFilename("");
+    setLength(null);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -37,7 +50,10 @@ function UploadPage() {
           Authorization: `Bearer ${token}`,
         },
       });
-      setResult(response.data.abstract || "No abstract returned.");
+
+      setAbstract(response.data.abstract || "No abstract returned.");
+      setFilename(response.data.filename || file.name);
+      setLength(response.data.length || 0);
     } catch (err) {
       setError("Upload failed. Try again.");
       console.error(err);
@@ -52,23 +68,36 @@ function UploadPage() {
   };
 
   return (
-    <div>
+    <div style={{ padding: "2rem" }}>
       <h2>Upload Document</h2>
       <form onSubmit={handleUpload}>
-        <input type="file" accept=".pdf,.doc,.docx,.txt" onChange={handleFileChange} />
-        <br />
+        <input
+          type="file"
+          accept=".pdf"
+          onChange={handleFileChange}
+        />
+        <br /><br />
         <button type="submit" disabled={loading}>
           {loading ? "Uploading..." : "Upload"}
         </button>
       </form>
+
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {result && (
-        <div>
-          <h3>Abstract:</h3>
-          <p>{result}</p>
+
+      {abstract && (
+        <div style={{ marginTop: "2rem" }}>
+            <h3>File Info:</h3>
+            <p><strong>Filename:</strong> {filename}</p>
+            <p><strong>Text Length:</strong> {length} characters</p>
+            <h3>Abstract:</h3>
+            <p style={{ whiteSpace: "pre-wrap" }}>{abstract}</p>
         </div>
-      )}
-      <button onClick={handleLogout}>Log Out</button>
+        )}
+
+
+      <button onClick={handleLogout} style={{ marginTop: "2rem" }}>
+        Log Out
+      </button>
     </div>
   );
 }
