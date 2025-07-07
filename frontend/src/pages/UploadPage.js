@@ -9,7 +9,9 @@ function UploadPage() {
   const [abstract, setAbstract] = useState("");
   const [filename, setFilename] = useState("");
   const [length, setLength] = useState(null);
-  const [quiz, setQuiz] = useState(""); // New field for quiz
+  const [quiz, setQuiz] = useState("");
+  const [answers, setAnswers] = useState("");
+  const [showAnswers, setShowAnswers] = useState(false);
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -21,6 +23,8 @@ function UploadPage() {
     setFilename("");
     setLength(null);
     setQuiz("");
+    setAnswers("");
+    setShowAnswers(false);
   };
 
   const handleUpload = async (e) => {
@@ -41,6 +45,8 @@ function UploadPage() {
     setFilename("");
     setLength(null);
     setQuiz("");
+    setAnswers("");
+    setShowAnswers(false);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -53,10 +59,11 @@ function UploadPage() {
         },
       });
 
-      setAbstract(response.data.abstract || "No abstract returned.");
+      setAbstract(response.data.summary || "No summary returned.");
       setFilename(response.data.filename || file.name);
       setLength(response.data.length || 0);
-      setQuiz(response.data.quiz || "No quiz returned."); // Set quiz
+      setQuiz(response.data.quiz || "No quiz returned.");
+      setAnswers(response.data.answers || "");
     } catch (err) {
       setError("Upload failed. Try again.");
       console.error(err);
@@ -71,8 +78,11 @@ function UploadPage() {
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div style={{ padding: "2%" }}>
       <h2>Upload Document</h2>
+
+      <p>Please only upload pdf's with 30 pages or less</p>
+
       <form onSubmit={handleUpload}>
         <input
           type="file"
@@ -88,18 +98,37 @@ function UploadPage() {
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       {abstract && (
-        <div style={{ marginTop: "2rem" }}>
+        <div style={{ marginTop: "2%" }}>
           <h3>File Info:</h3>
           <p><strong>Filename:</strong> {filename}</p>
           <p><strong>Text Length:</strong> {length} characters</p>
-          <h3>Abstract:</h3>
+          <h3>Summary:</h3>
           <p style={{ whiteSpace: "pre-wrap" }}>{abstract}</p>
           <h3>Quiz:</h3>
           <p style={{ whiteSpace: "pre-wrap" }}>{quiz}</p>
+
+          {answers && (
+            <div style={{ marginTop: "1rem" }}>
+              <button onClick={() => setShowAnswers(!showAnswers)}>
+                {showAnswers ? "Hide Answers" : "Show Answers"}
+              </button>
+              {showAnswers && (
+                <div style={{ marginTop: "0.5rem" }}>
+                  <h4>Answers:</h4>
+                  <p style={{ whiteSpace: "pre-wrap" }}>{answers}</p>
+                </div>
+              )}
+            </div>
+          )}
+
         </div>
       )}
 
-      <button onClick={handleLogout} style={{ marginTop: "2rem" }}>
+      <button onClick={() => navigate("/history")} style={{ marginTop: "2%" }}>
+        View History
+      </button>
+
+      <button onClick={handleLogout} style={{ margin: "1%" }}>
         Log Out
       </button>
     </div>

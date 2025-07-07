@@ -74,7 +74,7 @@ def google_login(id_token: str):
     except Exception as e:
         raise HTTPException(status_code=401, detail="Invalid Google token")
 
-def verify_token(request: Request):
+def verify_token(request: Request) -> str:
     auth_header = request.headers.get("Authorization")
     if not auth_header:
         raise HTTPException(status_code=401, detail="Missing token")
@@ -82,6 +82,7 @@ def verify_token(request: Request):
     token = auth_header.split(" ")[1]
     try:
         decoded_token = auth.verify_id_token(token)
-        return decoded_token
+        return decoded_token["uid"]
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid token")
+

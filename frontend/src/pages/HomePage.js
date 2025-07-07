@@ -17,7 +17,10 @@ function HomePage() {
       )}
 
       {token && (
-        <button onClick={() => navigate("/upload")}>Go to Upload</button>
+        <>
+          <button onClick={() => navigate("/upload")}>Go to Upload</button>
+          <button onClick={() => navigate("/history")}> View History </button>
+        </>
       )}
     </div>
   );
