@@ -4,17 +4,33 @@ import requests
 from fastapi import APIRouter, HTTPException, Request, Depends
 import os
 from pydantic import BaseModel
+from dotenv import load_dotenv
+
+load_dotenv()
 
 cred = credentials.Certificate(os.path.join(os.path.dirname(__file__), "firebase_config.json"))
 firebase_admin.initialize_app(cred)
 
 router = APIRouter()
 
-FIREBASE_API_KEY = "this_is_your_firebase_api_key"  # Replace with your Firebase API key
+firebase_key = os.getenv("FIREBASE_API_KEY")
 
 class AuthData(BaseModel):
     email: str
     password: str
+
+def verify_token(request: Request):
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        raise HTTPException(status_code=401, detail="Missing token")
+    
+    token = auth_header.split(" ")[1]
+    try:
+        decoded_token = auth.verify_id_token(token)
+        return decoded_token["uid"]
+    except Exception:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
 
 @router.post("/auth/signup")
 def signup(data: AuthData):
@@ -30,7 +46,7 @@ def signup(data: AuthData):
 @router.post("/auth/login")
 def login(data: AuthData):
     try:
-        url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={FIREBASE_API_KEY}"
+        url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={firebase_key}"
         payload = {
             "email": data.email,
             "password": data.password,

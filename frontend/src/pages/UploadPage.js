@@ -9,6 +9,7 @@ function UploadPage() {
   const [abstract, setAbstract] = useState("");
   const [filename, setFilename] = useState("");
   const [length, setLength] = useState(null);
+  const [quiz, setQuiz] = useState(""); // New field for quiz
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -19,6 +20,7 @@ function UploadPage() {
     setAbstract("");
     setFilename("");
     setLength(null);
+    setQuiz("");
   };
 
   const handleUpload = async (e) => {
@@ -28,7 +30,6 @@ function UploadPage() {
       return;
     }
 
-    // Optional: check if file is a PDF
     if (file.type !== "application/pdf") {
       setError("Only PDF files are supported.");
       return;
@@ -39,6 +40,7 @@ function UploadPage() {
     setAbstract("");
     setFilename("");
     setLength(null);
+    setQuiz("");
 
     const formData = new FormData();
     formData.append("file", file);
@@ -54,6 +56,7 @@ function UploadPage() {
       setAbstract(response.data.abstract || "No abstract returned.");
       setFilename(response.data.filename || file.name);
       setLength(response.data.length || 0);
+      setQuiz(response.data.quiz || "No quiz returned."); // Set quiz
     } catch (err) {
       setError("Upload failed. Try again.");
       console.error(err);
@@ -86,14 +89,15 @@ function UploadPage() {
 
       {abstract && (
         <div style={{ marginTop: "2rem" }}>
-            <h3>File Info:</h3>
-            <p><strong>Filename:</strong> {filename}</p>
-            <p><strong>Text Length:</strong> {length} characters</p>
-            <h3>Abstract:</h3>
-            <p style={{ whiteSpace: "pre-wrap" }}>{abstract}</p>
+          <h3>File Info:</h3>
+          <p><strong>Filename:</strong> {filename}</p>
+          <p><strong>Text Length:</strong> {length} characters</p>
+          <h3>Abstract:</h3>
+          <p style={{ whiteSpace: "pre-wrap" }}>{abstract}</p>
+          <h3>Quiz:</h3>
+          <p style={{ whiteSpace: "pre-wrap" }}>{quiz}</p>
         </div>
-        )}
-
+      )}
 
       <button onClick={handleLogout} style={{ marginTop: "2rem" }}>
         Log Out
