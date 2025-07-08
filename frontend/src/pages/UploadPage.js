@@ -78,7 +78,7 @@ function UploadPage() {
   };
 
   return (
-    <div style={{ padding: "2%" }}>
+    <div style={{ padding: "1%" }}>
       <h2>Upload Document</h2>
 
       <p>Please only upload pdf's with 30 pages or less</p>
@@ -108,12 +108,12 @@ function UploadPage() {
           <p style={{ whiteSpace: "pre-wrap" }}>{quiz}</p>
 
           {answers && (
-            <div style={{ marginTop: "1rem" }}>
+            <div style={{ marginTop: "1%" }}>
               <button onClick={() => setShowAnswers(!showAnswers)}>
                 {showAnswers ? "Hide Answers" : "Show Answers"}
               </button>
               {showAnswers && (
-                <div style={{ marginTop: "0.5rem" }}>
+                <div style={{ marginTop: "0.5%" }}>
                   <h4>Answers:</h4>
                   <p style={{ whiteSpace: "pre-wrap" }}>{answers}</p>
                 </div>

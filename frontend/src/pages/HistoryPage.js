@@ -35,10 +35,10 @@ function HistoryPage() {
   };
 
   return (
-    <div style={{ padding: "2%" }}>
+    <div style={{ padding: "1%" }}>
       <h2>Upload History</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <div style={{ marginTop: "2%", marginBottom: "2%" }}>
+      <div style={{ marginTop: "1%", marginBottom: "2%" }}>
         <button onClick={handleBack} style={{ marginRight: "1%" }}>
           Back to Upload
         </button>
@@ -57,7 +57,7 @@ function HistoryPage() {
             }}
           >
             <p><strong>Filename:</strong> {entry.filename}</p>
-            <p><strong>Summary:</strong><br />{entry.summary}</p>
+            <p><strong>ummary:</strong><br />{entry.summary}</p>
             <p><strong>Quiz:</strong><br />{entry.quiz}</p>
             <p><strong>Answers:</strong><br />{entry.answers}</p>
           </div>

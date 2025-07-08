@@ -30,14 +30,15 @@ function AuthPage() {
 
   return (
     <div>
-      <h2>{mode === "signup" ? "Sign Up" : "Sign In"}</h2>
-      <form onSubmit={handleSubmit}>
+      <h2 style={{padding: "1%"}}>{mode === "signup" ? "Sign Up" : "Sign In"}</h2>
+      <form onSubmit={handleSubmit} style={{marginLeft: "1%"}}>
         <input
           type="email"
           placeholder="Email"
           value={email}
           required
           onChange={(e) => setEmail(e.target.value)}
+          style={{margin: "0.1%"}}
         /><br />
         <input
           type="password"
@@ -45,8 +46,9 @@ function AuthPage() {
           value={password}
           required
           onChange={(e) => setPassword(e.target.value)}
+          style={{margin: "0.1%"}}
         /><br />
-        <button type="submit">
+        <button type="submit" style={{margin: "0.1%"}}>
           {mode === "signup" ? "Register" : "Login"}
         </button>
       </form>

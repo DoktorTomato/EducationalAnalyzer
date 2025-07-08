@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 from datetime import datetime, timezone
 from firebase_admin import firestore
 
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(os.path.dirname(__file__), "service_config.json")
+
 load_dotenv()
 
 project_id = os.getenv("PROJECT_ID")
