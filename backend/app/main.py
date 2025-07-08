@@ -29,11 +29,16 @@ origin = "http://localhost:8000"
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        "https://educationalanalyzer-d9304.web.app",
+        "https://educationalanalyzer-d9304.firebaseapp.com"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 app.include_router(auth_router)
 
