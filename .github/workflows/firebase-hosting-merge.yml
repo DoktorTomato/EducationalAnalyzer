@@ -11,14 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install and build frontend
-        working-directory: frontend
-        run: npm ci && npm run build
-
+      - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_CONFIG_JSON }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EDUCATIONALANALYZER_D9304 }}
           channelId: live
           projectId: educationalanalyzer-d9304
