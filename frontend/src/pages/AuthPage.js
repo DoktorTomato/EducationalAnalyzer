@@ -21,7 +21,7 @@ function AuthPage() {
       const token = res.data.idToken || res.data.token;
       localStorage.setItem("token", token);
 
-      navigate("/upload");
+      navigate("/");
     } catch (err) {
       console.error(err);
       setError("Authentication failed. Please try again.");

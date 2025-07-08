@@ -39,7 +39,22 @@ def signup(data: AuthData):
             email=data.email,
             password=data.password
         )
-        return {"message": "User created", "uid": user.uid}
+        url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={firebase_key}"
+        payload = {
+            "email": data.email,
+            "password": data.password,
+            "returnSecureToken": True
+        }
+        response = requests.post(url, json=payload)
+        if response.status_code != 200:
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+        
+        token_data = response.json()
+        return {
+            "idToken": token_data["idToken"],
+            "refreshToken": token_data["refreshToken"],
+            "expiresIn": token_data["expiresIn"]
+        }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
