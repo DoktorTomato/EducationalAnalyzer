@@ -16,6 +16,6 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_EDUCATIONALANALYZER_D9304 }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_CONFIG_JSON }}
           channelId: live
           projectId: educationalanalyzer-d9304
