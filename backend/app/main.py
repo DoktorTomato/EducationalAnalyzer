@@ -48,6 +48,10 @@ def save_to_firestore(user_id, filename, summary, answers, quiz=None):
         "timestamp": datetime.now(timezone.utc).isoformat()
     })
 
+@app.get("/")
+def root():
+    return {"message": "Educational Analyzer is running"}
+
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...), user_id: str = Depends(verify_token)):
     try:
