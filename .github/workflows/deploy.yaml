@@ -21,7 +21,7 @@ jobs:
       - name: Set up Google Cloud auth
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.FIREBASE_CONFIG_JSON }}
+          credentials_json: ${{ secrets.SERVICE_ACCOUNT_JSON }}
 
       - name: Set up gcloud CLI
         uses: google-github-actions/setup-gcloud@v2
